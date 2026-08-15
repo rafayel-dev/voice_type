@@ -23,21 +23,32 @@ else:
     groq_client = None
     print("No Groq API Key found. Using free Google Web Speech API.")
 
-# Initialize recognizer
+# Initialize recognizer and global locks
 r = sr.Recognizer()
 status_queue = queue.Queue()
+is_listening = False
+listening_lock = threading.Lock()
 
 def update_status(msg, color="black"):
     status_queue.put((msg, color))
 
 def listen_and_type(language_code, lang_name):
-    # Map to short language codes for Groq (e.g., 'en' or 'bn')
-    short_lang = "en" if "en" in language_code else "bn"
-    engine_name = "Groq" if groq_client else "Google"
+    global is_listening
     
-    update_status(f"Listening ({lang_name})...", "blue")
-    
+    # Prevent multiple threads from opening the microphone simultaneously
+    with listening_lock:
+        if is_listening:
+            print("Already listening. Ignoring hotkey press.")
+            return
+        is_listening = True
+
     try:
+        # Map to short language codes for Groq (e.g., 'en' or 'bn')
+        short_lang = "en" if "en" in language_code else "bn"
+        engine_name = "Groq" if groq_client else "Google"
+        
+        update_status(f"Listening ({lang_name})...", "blue")
+        
         with sr.Microphone() as source:
             r.adjust_for_ambient_noise(source, duration=0.3)
             audio = r.listen(source, timeout=5, phrase_time_limit=15)
@@ -54,7 +65,7 @@ def listen_and_type(language_code, lang_name):
                 with open(temp_filename, "rb") as file:
                     transcription = groq_client.audio.transcriptions.create(
                       file=(os.path.basename(temp_filename), file.read()),
-                      model="whisper-large-v3",
+                      model="whisper-large-v3-1127", # Explicit model fallback 
                       language=short_lang
                     )
                 text = transcription.text
@@ -86,10 +97,13 @@ def listen_and_type(language_code, lang_name):
     except Exception as e:
         print(f"Error: {e}")
         update_status("Error occurred", "red")
-    
-    # Reset to ready after 3 seconds
-    time.sleep(3)
-    update_status("Ready", "black")
+    finally:
+        # Release the lock for the next hotkey press
+        with listening_lock:
+            is_listening = False
+        # Reset to ready after 3 seconds
+        time.sleep(3)
+        update_status("Ready", "black")
 
 def on_english_hotkey():
     threading.Thread(target=listen_and_type, args=('en-US', 'Eng')).start()
@@ -123,7 +137,7 @@ def start_gui():
             while True:
                 msg, color = status_queue.get_nowait()
                 if msg == "Ready":
-                    if status_queue.empty():
+                    if status_queue.empty() and not is_listening:
                         status_label.config(text=f"🎙️ {msg}", fg=color)
                 else:
                     status_label.config(text=f"🎙️ {msg}", fg=color)

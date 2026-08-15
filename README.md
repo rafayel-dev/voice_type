@@ -3,16 +3,16 @@
 A desktop application that uses your microphone to transcribe speech (English and Bangla) and auto-types the text into whichever software you are currently using. 
 
 ## Features
+- **Dual-Engine:** Uses the free Google Web Speech API by default, or ultra-fast Groq (Whisper) if an API key is provided.
 - **Global Hotkeys:** Start dictating from anywhere using keyboard shortcuts.
 - **Cross-App Typing:** Automatically types into your web browser, Microsoft Word, Notepad, or any other application you have focused.
 - **Bilingual:** Out-of-the-box support for both English and Bangla.
-- **Free Transcription:** Uses the free Google Web Speech API (no API keys required).
 
 ## Requirements
 - Python 3.8+
 - (Linux Only) System packages: `portaudio19-dev`, `python3-pyaudio`, `xclip`
 
-*Note: This app is designed for Desktop operating systems (Linux, Windows, macOS). It does not work on Android (e.g., Termux) due to Android's strict background keylogging and cross-app interaction restrictions.*
+*Note: This app is designed for Desktop operating systems (Linux, Windows, macOS).*
 
 ## Installation
 
@@ -30,6 +30,10 @@ A desktop application that uses your microphone to transcribe speech (English an
    ```
    *(Or simply run the included `./setup.sh` on Linux)*
 
+3. **(Optional) Enable Groq Whisper for instant transcription:**
+   - Copy `.env.example` to `.env`
+   - Add your free API key from [Groq Cloud](https://console.groq.com)
+
 ## Usage
 
 Run the script as Administrator or root (required for global hotkeys to work properly in the background):
@@ -41,5 +45,3 @@ sudo ./venv/bin/python main.py
 *   **`Ctrl + Alt + E`** : Speak and type in **English**
 *   **`Ctrl + Alt + B`** : Speak and type in **Bangla**
 *   **`Esc`** : Quit the application
-
-Enjoy typing with your voice!
