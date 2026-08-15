@@ -6,7 +6,7 @@ python3 -m venv venv
 
 echo "Activating Virtual Environment and installing dependencies..."
 ./venv/bin/pip install --upgrade pip
-./venv/bin/pip install SpeechRecognition pyaudio keyboard pyautogui pyperclip plyer
+./venv/bin/pip install -r requirements.txt
 
 echo "================================================="
 echo "Setup Complete!"

@@ -4,3 +4,5 @@ keyboard
 pyautogui
 pyperclip
 plyer
+groq
+python-dotenv
