@@ -1,0 +1,6 @@
+SpeechRecognition
+pyaudio
+keyboard
+pyautogui
+pyperclip
+plyer
