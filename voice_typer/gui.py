@@ -131,7 +131,7 @@ class VoiceTyperApp:
         engine = get_engine_name()
         self.info_label = tk.Label(
             self.root, 
-            text=f"Engine: {engine}  •  Ctrl+Alt+Space",
+            text=f"Engine: {engine}  •  Ctrl+Space",
             font=("Segoe UI", 8), fg="#6c7086", bg="#1e1e2e"
         )
         self.info_label.pack()

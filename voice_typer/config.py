@@ -27,7 +27,7 @@ RATE = 16000
 DEFAULT_SETTINGS = {
     "language": "bn",  # "bn", "en"
     "engine": "google",
-    "hotkey_start_stop": "ctrl+alt+space",
+    "hotkey_start_stop": "ctrl+space",
     "hotkey_english": "ctrl+alt+e",
     "hotkey_bangla": "ctrl+alt+b",
 }
