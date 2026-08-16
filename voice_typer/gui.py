@@ -206,11 +206,11 @@ class VoiceTyperApp:
     def _setup_hotkeys(self):
         try:
             # Universal toggle — works for any language
-            keyboard.add_hotkey('ctrl+alt+space', self._on_toggle_click)
+            keyboard.add_hotkey('ctrl+space', self._on_toggle_click)
             # Language-specific shortcuts (also toggle)
             keyboard.add_hotkey('ctrl+alt+e', lambda: self._on_toggle_with_lang("en"))
             keyboard.add_hotkey('ctrl+alt+b', lambda: self._on_toggle_with_lang("bn"))
-            logger.info("Hotkeys registered: Ctrl+Alt+Space, Ctrl+Alt+E, Ctrl+Alt+B")
+            logger.info("Hotkeys registered: Ctrl+Space, Ctrl+Alt+E, Ctrl+Alt+B")
         except Exception as e:
             logger.error("Failed to set up hotkeys: %s", e)
     

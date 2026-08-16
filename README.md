@@ -42,7 +42,7 @@ If you wish to run the app from source or modify the code:
 
 Once the application is running, you can use the on-screen buttons or the following global keyboard shortcuts:
 
-*   **`Ctrl + Alt + Space`** : Start/Stop recording (Uses currently selected language)
+*   **`Ctrl + Space`** : Start/Stop recording (Uses currently selected language)
 *   **`Ctrl + Alt + B`** : Instantly switch to **Bangla** and start recording
 *   **`Ctrl + Alt + E`** : Instantly switch to **English** and start recording
 *   **`▲ / ▼ / ━` Button** : Toggle between Normal, Compact, and Mini Widget modes.
