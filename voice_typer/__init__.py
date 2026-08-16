@@ -1,0 +1,3 @@
+"""
+Voice Typer core package.
+"""
