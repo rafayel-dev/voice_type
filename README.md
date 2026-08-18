@@ -8,6 +8,7 @@ A beautiful, standalone desktop widget that uses your microphone to transcribe s
 - **Global Hotkeys:** Start/Stop dictating from anywhere using keyboard shortcuts, even when the app is running in the background.
 - **Cross-App Typing:** Automatically types into your web browser, Microsoft Word, Notepad, IDE, or any other application you have focused.
 - **Bilingual:** Out-of-the-box support for both Bangla (Default) and English.
+- **Minimize to Tray:** App can run silently in the background via the system tray, keeping your taskbar clean.
 - **Mini Widget Mode:** A beautiful custom title bar with multiple widget sizes (Normal, Compact, Mini) to stay out of your way while you work.
 
 ## Download & Run (Windows)
