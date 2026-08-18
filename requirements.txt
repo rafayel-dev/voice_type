@@ -7,3 +7,5 @@ keyboard==0.13.5
 pyautogui==0.9.54
 pyperclip==1.8.2
 plyer
+pystray
+pillow

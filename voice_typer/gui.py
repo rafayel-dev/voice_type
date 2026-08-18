@@ -11,6 +11,8 @@ import pyperclip
 import pyautogui
 import time
 import keyboard
+import pystray
+from PIL import Image, ImageDraw
 
 class VoiceTyperApp:
     """Main GUI application for Voice Typer."""
@@ -78,6 +80,16 @@ class VoiceTyperApp:
             cursor="hand2", command=self._toggle_compact_mode, bd=0, padx=6
         )
         self.compact_btn.pack(side=tk.RIGHT)        
+        
+        # Minimize Button
+        self.minimize_btn = tk.Button(
+            self.title_bar, text="—", font=("Segoe UI", 9, "bold"),
+            bg="#11111b", fg="#89b4fa", relief=tk.FLAT,
+            activebackground="#11111b", activeforeground="#cdd6f4",
+            cursor="hand2", command=self._minimize_to_tray, bd=0, padx=6
+        )
+        self.minimize_btn.pack(side=tk.RIGHT)
+
         style = ttk.Style()
         style.theme_use("clam")
         
@@ -384,6 +396,39 @@ class VoiceTyperApp:
             pass
         self.root.after(50, self._check_queue)
     
+    def _create_image(self):
+        # Generate an image for the tray icon
+        width = 64
+        height = 64
+        color1 = "#1e1e2e"
+        color2 = "#a6e3a1"
+        
+        image = Image.new('RGB', (width, height), color1)
+        dc = ImageDraw.Draw(image)
+        dc.rectangle(
+            (width // 4, height // 4, width * 3 // 4, height * 3 // 4),
+            fill=color2)
+        return image
+
+    def _minimize_to_tray(self):
+        self.root.withdraw()
+        image = self._create_image()
+        menu = pystray.Menu(
+            pystray.MenuItem("Show", self._restore_from_tray, default=True),
+            pystray.MenuItem("Quit", self._quit_from_tray)
+        )
+        self.tray_icon = pystray.Icon("VoiceTyper", image, "Voice Typer", menu)
+        # Start pystray in a separate thread so it doesn't block tkinter
+        threading.Thread(target=self.tray_icon.run, daemon=True).start()
+
+    def _restore_from_tray(self, icon, item):
+        icon.stop()
+        self.root.after(0, self.root.deiconify)
+
+    def _quit_from_tray(self, icon, item):
+        icon.stop()
+        self.root.after(0, self._on_closing)
+
     def _on_closing(self):
         if self.recorder.is_recording:
             self.recorder.stop()
