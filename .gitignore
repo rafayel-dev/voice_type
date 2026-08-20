@@ -7,4 +7,3 @@ voice_typer.log
 .vscode/
 dist/
 build/
-*.spec
